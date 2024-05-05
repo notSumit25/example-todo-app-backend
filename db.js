@@ -3,7 +3,7 @@ mongoose.connect('mongodb+srv://admin:JsGWUfCztJCoubLs@cluster0.6qhdsop.mongodb.
 
 
 const todoSchema = mongoose.Schema({
-    name: String,
+    title: String,
     description: String,
     completed: Boolean,
     });

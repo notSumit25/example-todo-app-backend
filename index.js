@@ -7,6 +7,7 @@ app.use(express.json());
 
 app.post('/todo', async (req, res) => {
   const createPayload = req.body;
+  console.log(createPayload);
   const parsedPayload = createTodo.safeParse(createPayload);
   if(!parsedPayload.success) {
     return res.status(400).send(parsedPayload.error.errors);
