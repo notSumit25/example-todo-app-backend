@@ -1,8 +1,10 @@
 const express = require('express');
 const { createTodo, updateTodo } = require('./types');
+const cors = require('cors');
 const { todo } = require('./db');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 
 app.post('/todo', async (req, res) => {
@@ -17,7 +19,9 @@ app.post('/todo', async (req, res) => {
     description:createPayload.description,
     
   });
-    res.send('Todo created');
+    res.json({
+        msg: 'Todo created'
+    });
 
 });
 
@@ -39,7 +43,9 @@ app.put('/completed', async (req, res) => {
         if(err) {
             return res.status(500).send('Something went wrong');
         }
-        res.send('Todo updated');
+        res.json({
+            msg: 'Todo updated'
+        });
     });
     });
 
