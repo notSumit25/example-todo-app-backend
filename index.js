@@ -1,11 +1,16 @@
 const express = require('express');
+const { createTodo, updateTodo } = require('./types');
 const app = express();
 app.use(express.json());
 
 
 app.post('/todo', (req, res) => {
-  console.log(req.body);
-  res.send('Todo is added to the database');
+  const createPayload = req.body;
+  const parsedPayload = createTodo.safeParse(createPayload);
+  if(!parsedPayload.success) {
+    return res.status(400).send(parsedPayload.error.errors);
+  }
+
 });
 
 
@@ -15,6 +20,10 @@ app.get('/todos', (req, res) => {
 
 
 app.put('/completed', (req, res) => {
-    res.send('Todo is updated');
+    const updatePayload = req.body;
+    const parsedPayload = updateTodo.safeParse(updatePayload);
+    if(!parsedPayload.success) {
+      return res.status(400).send(parsedPayload.error.errors);
+    }
     });
 
