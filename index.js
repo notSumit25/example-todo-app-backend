@@ -4,7 +4,11 @@ const cors = require('cors');
 const { todo } = require('./db');
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+    origin: 'http://localhost:5173', 
+  }));
+
 
 
 app.post('/todo', async (req, res) => {
@@ -32,22 +36,22 @@ app.get('/todos', async (req, res) => {
 });
 
 
-app.put('/completed', async (req, res) => {
+app.put('/completed', cors(), async (req, res) => {
     const updatePayload = req.body;
     const parsedPayload = updateTodo.safeParse(updatePayload);
     if(!parsedPayload.success) {
       return res.status(400).send(parsedPayload.error.errors);
     }
 
-    todo.updateOne({ _id: req.body.id }, { completed: true }, (err) => {
-        if(err) {
-            return res.status(500).send('Something went wrong');
-        }
+    try {
+        await todo.updateOne({ _id: req.body.id }, { completed: true });
         res.json({
             msg: 'Todo updated'
         });
-    });
-    });
+    } catch (err) {
+        return res.status(500).send('Something went wrong');
+    }
+});
 
 
 app.listen(3000, () => {
