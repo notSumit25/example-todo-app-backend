@@ -10,6 +10,9 @@ app.use(cors({
   }));
 
 
+  //post request
+
+
 
 app.post('/todo', async (req, res) => {
   const createPayload = req.body;
